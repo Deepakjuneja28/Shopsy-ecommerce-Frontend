@@ -24,6 +24,7 @@ const Cart = () => {
 
   const [couponCode, setCouponCode] = useState<string>("");
   const [isValidCouponCode, setIsValidCouponCode] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const incrementHandler = (cartItem: CartItem) => {
     if (cartItem.quantity >= cartItem.stock) return;
@@ -39,9 +40,14 @@ const Cart = () => {
     dispatch(removeCartItem(productId));
   };
   useEffect(() => {
+    // Check if couponCode is valid before making the request
+    if (!couponCode) {
+      return;
+    }
+
     const { token: cancelToken, cancel } = axios.CancelToken.source();
 
-    const timeOutID = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       axios
         .get(`${server}/api/v1/payment/discount?coupon=${couponCode}`, {
           cancelToken,
@@ -50,24 +56,28 @@ const Cart = () => {
           dispatch(discountApplied(res.data.discount));
           setIsValidCouponCode(true);
           dispatch(calculatePrice());
+          setErrorMessage("");
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error("Error fetching discount:", error);
           dispatch(discountApplied(0));
           setIsValidCouponCode(false);
           dispatch(calculatePrice());
+          setErrorMessage("An error occurred while fetching discount.");
         });
     }, 1000);
 
     return () => {
-      clearTimeout(timeOutID);
+      clearTimeout(timeoutId);
       cancel();
       setIsValidCouponCode(false);
+      setErrorMessage("");
     };
-  }, [couponCode]);
+  }, [couponCode, dispatch]);
 
   useEffect(() => {
     dispatch(calculatePrice());
-  }, [cartItems]);
+  }, [cartItems, dispatch]);
 
   return (
     <div className="cart">
@@ -110,7 +120,13 @@ const Cart = () => {
             </span>
           ) : (
             <span className="red">
-              Invalid code <VscError />
+              {errorMessage ? (
+                errorMessage
+              ) : (
+                <>
+                  Invalid code <VscError />
+                </>
+              )}
             </span>
           ))}
 
