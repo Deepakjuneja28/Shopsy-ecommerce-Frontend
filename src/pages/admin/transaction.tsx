@@ -49,11 +49,9 @@ const columns: Column<DataType>[] = [
 ];
 
 const Transaction = () => {
-  const { user } = useSelector(
-    (state: RootState) => state.userReducer
-  );
+  const { user } = useSelector((state: RootState) => state.userReducer);
 
-  const { isLoading, data, error, isError } = useAllOrdersQuery(user?._id!);
+  const { isLoading, data, isError, error } = useAllOrdersQuery(user?._id!);
 
 
   const [rows, setRows] = useState<DataType[]>([]);

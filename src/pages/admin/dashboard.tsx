@@ -15,10 +15,10 @@ import { getLastMonths } from "../../utils/features";
 const userImg =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJxA5cTf-5dh5Eusm0puHbvAhOrCRPtckzjA&usqp";
 
+const { last6Months: months } = getLastMonths();
 const Dashboard = () => {
-  const { last6Months: months } = getLastMonths();
   const { user } = useSelector((state: RootState) => state.userReducer);
-  const { isLoading, data,  isError } = useStatsQuery(user?._id!);
+  const { isLoading, data, isError } = useStatsQuery(user?._id!);
 
   const stats = data?.stats!;
 

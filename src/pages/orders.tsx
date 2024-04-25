@@ -93,7 +93,7 @@ const Orders = () => {
   return (
     <div className="container">
       <h1>My Orders</h1>
-      <main>{isLoading ? <Skeleton length={20} /> : Table}</main>
+      {isLoading ? <Skeleton length={20} /> : Table}
     </div>
   );
 };

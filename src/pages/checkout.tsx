@@ -91,7 +91,7 @@ const Checkout = () => {
 
   const clientSecret: string | undefined = location.state;
 
-  if (!clientSecret) return <Navigate to={"/shipping}"} />;
+  if (!clientSecret) return <Navigate to={"/shipping"} />;
   return (
     <Elements
       options={{

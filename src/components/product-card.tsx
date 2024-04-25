@@ -4,7 +4,7 @@ import { CartItem } from "../types/types";
 // import { server } from "../redux/store";
 // import { CartItem } from "../types/types";
 
-type productProps = {
+type ProductsProps = {
   productId: string;
   photo: string;
   name: string;
@@ -21,7 +21,7 @@ const ProductCard = ({
   price,
   stock,
   handler,
-}: productProps) => {
+}: ProductsProps) => {
   return (
     <div className="product-card">
       <img src={`${server}/${photo}`} alt={name} />

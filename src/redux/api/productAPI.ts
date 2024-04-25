@@ -20,6 +20,7 @@ export const productAPI = createApi({
   endpoints: (builder) => ({
     latestProducts: builder.query<AllProductsResponse, string>({
       query: () => "latest",
+      providesTags: ["product"],
     }),
     allProducts: builder.query<AllProductsResponse, string>({
       query: (id) => `admin-products?id=${id}`,
@@ -45,6 +46,20 @@ export const productAPI = createApi({
       },
       providesTags: ["product"],
     }),
+
+    productDetails: builder.query<ProductResponse, string>({
+      query: (id) => id,
+      providesTags: ["product"],
+    }),
+
+    newProduct: builder.mutation<MessageResponse, NewProductRequest>({
+      query: ({ formData, id }) => ({
+        url: `new?id=${id}`,
+        method: "POST",
+        body: formData,
+      }),
+      invalidatesTags: ["product"],
+    }),
     updateProduct: builder.mutation<MessageResponse, UpdateProductRequest>({
       query: ({ formData, userId, productId }) => ({
         url: `${productId}?id=${userId}`,
@@ -58,20 +73,6 @@ export const productAPI = createApi({
       query: ({ userId, productId }) => ({
         url: `${productId}?id=${userId}`,
         method: "DELETE",
-      }),
-      invalidatesTags: ["product"],
-    }),
-
-    productDetails: builder.query<ProductResponse, string>({
-      query: (id) => id,
-      providesTags: ["product"],
-    }),
-
-    newProduct: builder.mutation<MessageResponse, NewProductRequest>({
-      query: ({ formData, id }) => ({
-        url: `new?id=${id}`,
-        method: "POST",
-        body: formData,
       }),
       invalidatesTags: ["product"],
     }),

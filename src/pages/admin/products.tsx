@@ -8,9 +8,8 @@ import AdminSidebar from "../../components/admin/AdminSidebar";
 import TableHOC from "../../components/admin/TableHOC";
 import { Skeleton } from "../../components/loader";
 import { useAllProductsQuery } from "../../redux/api/productAPI";
-import { server } from "../../redux/store";
 import { CustomError } from "../../types/api-types";
-import { UserReducerInitialState } from "../../types/reducer-types";
+import { RootState, server } from "../../redux/store";
 
 interface DataType {
   photo: ReactElement;
@@ -43,12 +42,8 @@ const columns: Column<DataType>[] = [
   },
 ];
 
-
-
 const Products = () => {
-
-  const {user} = useSelector((state:{userReducer:UserReducerInitialState}) => state.userReducer)
-
+  const { user } = useSelector((state: RootState) => state.userReducer);
 
   const { isLoading, isError, error, data } = useAllProductsQuery(user?._id!);
   const [rows, setRows] = useState<DataType[]>([]);
@@ -79,7 +74,7 @@ const Products = () => {
   return (
     <div className="admin-container">
       <AdminSidebar />
-      <main>{isLoading? <Skeleton/> : Table}</main>
+      <main>{isLoading ? <Skeleton length={20}/> : Table}</main>
       <Link to="/admin/product/new" className="create-product-btn">
         <FaPlus />
       </Link>

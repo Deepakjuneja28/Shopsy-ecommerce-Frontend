@@ -31,32 +31,25 @@ const Header = ({ user }: PropsType) => {
 
   return (
     <nav className="header">
-      <Link onClick={() => setIsOpen(false)} to="/">
+      <Link onClick={() => setIsOpen(false)} to={"/"}>
         HOME
       </Link>
-      <Link onClick={() => setIsOpen(false)} to="/search">
+      <Link onClick={() => setIsOpen(false)} to={"/search"}>
         <FaSearch />
       </Link>
-      <Link onClick={() => setIsOpen(false)} to="/cart" className="cart-button">
+      <Link onClick={() => setIsOpen(false)} to={"/cart"}>
         <FaShoppingBag />
       </Link>
 
       {user?._id ? (
         <>
-          <button
-            className="cart-button"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
+          <button onClick={() => setIsOpen((prev) => !prev)}>
             <FaUser />
           </button>
           <dialog open={isOpen}>
             <div>
               {user.role === "admin" && (
-                <Link
-                  onClick={() => setIsOpen(false)}
-                  to="/admin/dashboard"
-                  className="cart-button" // Apply the same styling as the cart button
-                >
+                <Link onClick={() => setIsOpen(false)} to="/admin/dashboard">
                   Admin
                 </Link>
               )}
@@ -64,14 +57,14 @@ const Header = ({ user }: PropsType) => {
               <Link onClick={() => setIsOpen(false)} to="/orders">
                 Orders
               </Link>
-              <button className="cart-button" onClick={logoutHandler}>
+              <button onClick={logoutHandler}>
                 <FaSignOutAlt />
               </button>
             </div>
           </dialog>
         </>
       ) : (
-        <Link to="/login">
+        <Link to={"/login"}>
           <FaSignInAlt />
         </Link>
       )}
